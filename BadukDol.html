@@ -191,22 +191,18 @@ canvas{display:block;border-radius:4px;cursor:crosshair;border:3px solid var(--w
   padding:60px 40px;gap:36px;
   background:linear-gradient(160deg,#0e0702 0%,#1e1108 30%,#3a2010 65%,#4e2e14 100%);
 }
-/* Subtle center glow — no color, just a warm lift */
 .landing-left::before{
   content:'';position:absolute;inset:0;pointer-events:none;
   background:radial-gradient(ellipse 70% 60% at 50% 45%,rgba(160,100,40,0.14) 0%,transparent 65%);
 }
-/* Thin top edge highlight */
 .landing-left::after{
   content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
   background:linear-gradient(90deg,transparent,rgba(190,150,80,0.35),transparent);
 }
-/* Board preview */
 .landing-board-preview{
   position:relative;z-index:2;border-radius:6px;overflow:hidden;
   box-shadow:0 0 0 1px rgba(185,145,70,0.3),0 24px 60px rgba(0,0,0,0.65);
 }
-/* Brand */
 .landing-brand{text-align:center;position:relative;z-index:2;}
 .landing-stones{display:flex;justify-content:center;margin-bottom:14px;}
 .landing-title{
@@ -218,7 +214,6 @@ canvas{display:block;border-radius:4px;cursor:crosshair;border:3px solid var(--w
   font-size:0.76rem;color:rgba(195,160,105,0.55);
   font-weight:600;line-height:1.9;letter-spacing:0.16em;text-transform:uppercase;
 }
-/* Divider line */
 .lux-line{
   width:48px;height:1px;
   background:linear-gradient(90deg,transparent,rgba(185,145,70,0.5),transparent);
@@ -254,7 +249,6 @@ canvas{display:block;border-radius:4px;cursor:crosshair;border:3px solid var(--w
 .home-main{flex:1;min-width:300px;display:flex;flex-direction:column;gap:20px;}
 .home-aside{width:260px;display:flex;flex-direction:column;gap:16px;flex-shrink:0;}
 
-/* Stat strip */
 .stat-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
 .stat-tile{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:18px 16px;text-align:center;}
 .stat-tile .st-val{font-family:'Lora',serif;font-size:1.8rem;font-weight:700;line-height:1;}
@@ -263,7 +257,6 @@ canvas{display:block;border-radius:4px;cursor:crosshair;border:3px solid var(--w
 .stat-tile.losses .st-val{color:var(--red);}
 .stat-tile.draws .st-val{color:var(--text2);}
 
-/* Game pick cards (large) */
 .home-section-label{font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.14em;color:var(--text3);margin-bottom:12px;}
 .game-pick-grid{display:flex;flex-direction:column;gap:14px;}
 .game-pick-card{
@@ -291,7 +284,6 @@ canvas{display:block;border-radius:4px;cursor:crosshair;border:3px solid var(--w
 .gp-arrow{font-size:1.1rem;color:var(--border2);flex-shrink:0;transition:transform 0.15s;}
 .game-pick-card:hover .gp-arrow{transform:translateX(4px);color:var(--wood);}
 
-/* Aside cards */
 .aside-card{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:18px;}
 .aside-card-title{font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--text3);margin-bottom:12px;}
 .recent-empty{font-size:0.82rem;color:var(--text3);font-weight:500;}
@@ -306,7 +298,6 @@ canvas{display:block;border-radius:4px;cursor:crosshair;border:3px solid var(--w
 
 <!-- LANDING PAGE -->
 <div id="landingPage" class="hidden">
-  <!-- Left panel: clean gradient -->
   <div class="landing-left">
     <div class="landing-board-preview">
       <canvas id="previewCanvas" width="288" height="288"></canvas>
@@ -322,11 +313,8 @@ canvas{display:block;border-radius:4px;cursor:crosshair;border:3px solid var(--w
     </div>
   </div>
 
-  <!-- Right panel: auth -->
   <div class="landing-right">
     <div class="landing-form-wrap">
-
-      <!-- SIGN IN FORM -->
       <div id="landingSignIn">
         <h2 class="lf-title">Sign in</h2>
         <p class="lf-sub">Welcome back</p>
@@ -341,7 +329,6 @@ canvas{display:block;border-radius:4px;cursor:crosshair;border:3px solid var(--w
         <p class="lf-switch">Don't have an account? <button class="lf-link" onclick="switchLanding('register')">Create one</button></p>
       </div>
 
-      <!-- CREATE ACCOUNT FORM -->
       <div id="landingRegister" class="hidden">
         <h2 class="lf-title">Create account</h2>
         <p class="lf-sub">Join and track your wins</p>
@@ -356,12 +343,11 @@ canvas{display:block;border-radius:4px;cursor:crosshair;border:3px solid var(--w
         <button class="btn btn-outline lf-btn" onclick="playAsGuest()">Continue as Guest</button>
         <p class="lf-switch">Already have an account? <button class="lf-link" onclick="switchLanding('login')">Sign in</button></p>
       </div>
-
     </div>
   </div>
 </div>
 
-<!-- HEADER (shown after login) -->
+<!-- HEADER -->
 <header id="mainHeader" class="hidden">
   <div class="logo" onclick="goHome()" style="cursor:pointer;">
     <div class="logo-stones">
@@ -382,7 +368,6 @@ canvas{display:block;border-radius:4px;cursor:crosshair;border:3px solid var(--w
 <!-- MODAL -->
 <div id="modalOverlay" class="hidden">
 
-  <!-- GAME SELECT -->
   <div class="modal-page" id="page-gameSelect">
     <div class="card">
       <div class="card-title">Baduk Dol</div>
@@ -406,7 +391,6 @@ canvas{display:block;border-radius:4px;cursor:crosshair;border:3px solid var(--w
     </div>
   </div>
 
-  <!-- PLAY MODE -->
   <div class="modal-page" id="page-menu">
     <div class="card">
       <div class="card-title" id="modeHeader">Play Mode</div>
@@ -423,7 +407,6 @@ canvas{display:block;border-radius:4px;cursor:crosshair;border:3px solid var(--w
     </div>
   </div>
 
-  <!-- AUTH -->
   <div class="modal-page" id="page-auth">
     <div class="card">
       <div class="card-title" id="authTitle">Welcome Back</div>
@@ -453,7 +436,6 @@ canvas{display:block;border-radius:4px;cursor:crosshair;border:3px solid var(--w
     </div>
   </div>
 
-  <!-- PROFILE -->
   <div class="modal-page" id="page-profile">
     <div class="card" style="width:460px;max-width:100%;">
       <div class="profile-scroll">
@@ -488,7 +470,6 @@ canvas{display:block;border-radius:4px;cursor:crosshair;border:3px solid var(--w
     </div>
   </div>
 
-  <!-- PAGE: ONLINE LOBBY -->
   <div class="modal-page" id="page-online">
     <div class="card">
       <div class="card-title" id="onlinePanelTitle">Play Online</div>
@@ -527,9 +508,7 @@ canvas{display:block;border-radius:4px;cursor:crosshair;border:3px solid var(--w
     <div class="greet-sub" id="homeSubtitle">Ready for your next match?</div>
   </div>
   <div class="home-cols">
-    <!-- Main column -->
     <div class="home-main">
-      <!-- Stats -->
       <div>
         <div class="home-section-label">Your Record</div>
         <div class="stat-strip">
@@ -538,7 +517,6 @@ canvas{display:block;border-radius:4px;cursor:crosshair;border:3px solid var(--w
           <div class="stat-tile draws"><div class="st-val" id="homeDraws">0</div><div class="st-lbl">Draws</div></div>
         </div>
       </div>
-      <!-- Game pick -->
       <div>
         <div class="home-section-label">Choose a Game</div>
         <div class="game-pick-grid">
@@ -560,7 +538,6 @@ canvas{display:block;border-radius:4px;cursor:crosshair;border:3px solid var(--w
           </button>
         </div>
       </div>
-      <!-- Online play -->
       <div>
         <div class="home-section-label">Play Online</div>
         <div class="game-pick-grid">
@@ -583,7 +560,6 @@ canvas{display:block;border-radius:4px;cursor:crosshair;border:3px solid var(--w
         </div>
       </div>
     </div>
-    <!-- Aside column -->
     <div class="home-aside">
       <div class="aside-card">
         <div class="aside-card-title">Recent Games</div>
@@ -600,20 +576,14 @@ canvas{display:block;border-radius:4px;cursor:crosshair;border:3px solid var(--w
   </div>
 </div>
 
-<!-- ONLINE PANEL (modal page) -->
-<!-- Add to modal overlay below -->
-
 <!-- ONLINE GAME AREA -->
 <div id="onlineArea" style="display:none;position:relative;z-index:5;min-height:calc(100vh - 68px);background:var(--bg);">
   <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:24px;padding:28px 20px;align-items:flex-start;">
-    <!-- Board -->
     <div class="board-wrap">
       <canvas id="onlineBoard"></canvas>
       <div class="board-tag"><div class="board-tag-dot"></div><span id="onlineBoardLabel">Go — 19×19</span></div>
     </div>
-    <!-- Online sidebar -->
     <div class="sidebar" style="width:280px;">
-      <!-- Players -->
       <div class="ui-card">
         <div class="sec-label">Players</div>
         <div style="display:flex;flex-direction:column;gap:10px;">
@@ -633,7 +603,6 @@ canvas{display:block;border-radius:4px;cursor:crosshair;border:3px solid var(--w
           <div id="onlineRoomCode" style="font-size:0.72rem;color:var(--text3);margin-top:4px;"></div>
         </div>
       </div>
-      <!-- Actions -->
       <div class="ui-card">
         <div class="sec-label">Actions</div>
         <div class="action-stack">
@@ -644,7 +613,6 @@ canvas{display:block;border-radius:4px;cursor:crosshair;border:3px solid var(--w
           <button class="btn btn-outline" onclick="leaveOnlineRoom()" style="font-size:0.85rem;">Leave Room</button>
         </div>
       </div>
-      <!-- Chat -->
       <div class="ui-card" style="display:flex;flex-direction:column;gap:0;">
         <div class="sec-label">Chat</div>
         <div id="onlineChatBox" style="height:160px;overflow-y:auto;display:flex;flex-direction:column;gap:6px;margin-bottom:10px;padding-right:2px;">
@@ -748,17 +716,14 @@ function showHomeScreen(){
 
 async function loadHomeScreen(){
   if(!currentUser)return;
-  // Greeting
   document.getElementById('homeName').textContent=currentUser.username;
   const s=currentUser.stats||{};
   const total=(s.wins||0)+(s.losses||0)+(s.draws||0);
   document.getElementById('homeSubtitle').textContent=
     total===0?'Ready for your first match?':`${total} game${total===1?'':'s'} played · Win rate: ${s.wins+s.losses>0?Math.round(s.wins/(s.wins+s.losses)*100):0}%`;
-  // Stats
   document.getElementById('homeWins').textContent=s.wins||0;
   document.getElementById('homeLosses').textContent=s.losses||0;
   document.getElementById('homeDraws').textContent=s.draws||0;
-  // Recent games
   try{
     const r=await api('/game/history');
     const list=document.getElementById('homeRecentList');
@@ -819,38 +784,31 @@ window.onload=async()=>{
     try{const r=await api('/auth/me');setUser(r.user);enterApp();return;}
     catch{clearAuth();}
   }
-  // Show landing page
   document.getElementById('landingPage').classList.remove('hidden');
 };
 
-/* PREVIEW BOARD on landing page */
 function drawPreviewBoard(){
   const pc=document.getElementById('previewCanvas');
   if(!pc)return;
   const px=pc.getContext('2d');
   const SIZE=9,CELL=32,R=12;
   pc.width=SIZE*CELL; pc.height=SIZE*CELL;
-  // Dark warm board
   const bg=px.createLinearGradient(0,0,pc.width,pc.height);
   bg.addColorStop(0,'#c8a045');bg.addColorStop(0.5,'#b88c30');bg.addColorStop(1,'#a07820');
   px.fillStyle=bg; px.fillRect(0,0,pc.width,pc.height);
-  // Subtle vignette
   const vig=px.createRadialGradient(pc.width/2,pc.height/2,40,pc.width/2,pc.height/2,pc.width*0.75);
   vig.addColorStop(0,'transparent'); vig.addColorStop(1,'rgba(0,0,0,0.35)');
   px.fillStyle=vig; px.fillRect(0,0,pc.width,pc.height);
-  // Grid
   px.strokeStyle='rgba(70,35,5,0.5)'; px.lineWidth=0.8;
   for(let i=0;i<SIZE;i++){
     let p=CELL/2+i*CELL;
     px.beginPath();px.moveTo(CELL/2,p);px.lineTo(pc.width-CELL/2,p);px.stroke();
     px.beginPath();px.moveTo(p,CELL/2);px.lineTo(p,pc.height-CELL/2);px.stroke();
   }
-  // Star points
   px.fillStyle='rgba(70,35,5,0.65)';
   [[2,2],[2,6],[6,2],[6,6],[4,4]].forEach(([r,c])=>{
     px.beginPath();px.arc(CELL/2+c*CELL,CELL/2+r*CELL,3,0,Math.PI*2);px.fill();
   });
-  // Stones
   const stones=[
     [1,1,'b'],[1,3,'w'],[2,2,'w'],[2,4,'b'],[3,1,'b'],[3,3,'w'],
     [4,2,'b'],[4,5,'w'],[5,4,'b'],[5,6,'w'],[6,3,'b'],[6,5,'b'],
@@ -858,10 +816,8 @@ function drawPreviewBoard(){
   ];
   stones.forEach(([r,c,col])=>{
     const x=CELL/2+c*CELL, y=CELL/2+r*CELL;
-    // shadow
     px.beginPath();px.arc(x+1.5,y+2,R,0,Math.PI*2);
     px.fillStyle='rgba(0,0,0,0.35)';px.fill();
-    // stone
     px.beginPath();px.arc(x,y,R,0,Math.PI*2);
     const g=px.createRadialGradient(x-3,y-4,1,x,y,R);
     if(col==='b'){
@@ -882,13 +838,6 @@ async function api(path,opts={}){
 }
 function setUser(u){currentUser=u;localStorage.setItem('gm_user',JSON.stringify(u));}
 function clearAuth(){authToken=null;currentUser=null;localStorage.removeItem('gm_token');localStorage.removeItem('gm_user');}
-function updateHeaderUser(){
-  if(!currentUser)return;
-  document.getElementById('headerAvatar').textContent=currentUser.avatar;
-  document.getElementById('headerName').textContent=currentUser.username;
-  document.getElementById('headerBadge').textContent=currentUser.isGuest?'Guest':'Member';
-  document.getElementById('headerUser').onclick=openProfile;
-}
 
 /* AUTH */
 async function playAsGuest(){
@@ -932,6 +881,7 @@ function doLogout(){
   document.getElementById('landingPage').classList.remove('hidden');
   gameActive=false;
 }
+
 /* PROFILE */
 async function openProfile(){
   if(!currentUser){openModal('auth');return;}
@@ -1012,11 +962,15 @@ function calculateGoScore(){let bT=0,wT=0;const vis=new Set();for(let r=0;r<BOAR
 function getArea(r,c){const area={coords:[],owner:null},queue=[[r,c]],vis=new Set([`${r},${c}`]),borders=new Set();while(queue.length){const[cr,cc]=queue.shift();area.coords.push(`${cr},${cc}`);getNeighbors(cr,cc).forEach(([nr,nc])=>{if(board[nr][nc]===EMPTY){if(!vis.has(`${nr},${nc}`)){vis.add(`${nr},${nc}`);queue.push([nr,nc]);}}else borders.add(board[nr][nc]);});}if(borders.size===1)area.owner=Array.from(borders)[0];return area;}
 
 /* ═══════════════════════════════════════════
-   AI ENGINE
-   Lv1 = greedy heuristic
-   Lv2 = Minimax depth-3 (Omok) / deep heuristic (Go)
-   Lv3 = Minimax depth-5 Alpha-Beta (Omok) / Monte-Carlo + pattern (Go)
+   AI ENGINE — OMOK
+   
+   Lv1 (Novice):  Pure greedy, no lookahead. High random noise.
+                  Misses multi-step threats. Beginner-friendly.
+   Lv2 (Skilled): Minimax depth-2 with moderate noise.
+                  Blocks obvious threats but misses complex ones.
+   Lv3 (Master):  Minimax depth-5 Alpha-Beta. Full strength.
 ═══════════════════════════════════════════ */
+
 function aiTurn(){
   if(!gameActive)return;
   try{
@@ -1034,18 +988,67 @@ function aiTurn(){
   }
 }
 
-/* ── OMOK AI: Minimax + Alpha-Beta pruning ── */
+/* ── OMOK AI ── */
 function omokAI(){
-  const depth=aiLevel===1?1:aiLevel===2?3:5;
-  // Collect candidate moves (cells near existing stones)
   const cands=omokCandidates(board);
   if(cands.length===0)return{r:Math.floor(BOARD_SIZE/2),c:Math.floor(BOARD_SIZE/2)};
+
+  // ── LEVEL 1: Novice — greedy with heavy noise, no lookahead ──
+  if(aiLevel===1){
+    // Always take an instant win
+    for(const mv of cands){
+      const nb=boardCopy(board);nb[mv.r][mv.c]=WHITE;
+      if(omokWinCheck(nb,mv.r,mv.c,WHITE))return mv;
+    }
+    // Score each candidate with greedy heuristic + heavy random noise
+    // Noise is ~40% of max score so the AI frequently makes suboptimal picks
+    let best=null,bestScore=-Infinity;
+    for(const mv of cands){
+      const offScore=omokSpotScore(board,mv.r,mv.c,WHITE);
+      const defScore=omokSpotScore(board,mv.r,mv.c,BLACK);
+      // Weight offense more than defense so it doesn't block well
+      let score=offScore*0.8+defScore*0.4;
+      // Add very heavy noise — novice will miss threats regularly
+      score+=Math.random()*8000;
+      if(score>bestScore){bestScore=score;best=mv;}
+    }
+    return best;
+  }
+
+  // ── LEVEL 2: Skilled — minimax depth-2, moderate noise ──
+  if(aiLevel===2){
+    // Instant win
+    for(const mv of cands){
+      const nb=boardCopy(board);nb[mv.r][mv.c]=WHITE;
+      if(omokWinCheck(nb,mv.r,mv.c,WHITE))return mv;
+    }
+    // Block opponent 4-in-a-row (open four) explicitly — but with a small miss chance
+    if(Math.random()>0.15){ // 15% chance to miss a block
+      for(const mv of cands){
+        const nb=boardCopy(board);nb[mv.r][mv.c]=BLACK;
+        if(omokWinCheck(nb,mv.r,mv.c,BLACK)){
+          // Found a block — return it
+          return mv;
+        }
+      }
+    }
+    // Depth-2 minimax with moderate noise
+    let best=null,bestScore=-Infinity;
+    for(const mv of cands){
+      const nb=boardCopy(board);nb[mv.r][mv.c]=WHITE;
+      const score=alphabeta(nb,1,-Infinity,Infinity,false)+Math.random()*1500;
+      if(score>bestScore){bestScore=score;best=mv;}
+    }
+    return best;
+  }
+
+  // ── LEVEL 3: Master — full depth-5 alpha-beta ──
   let best=null,bestScore=-Infinity;
   for(const mv of cands){
     const nb=boardCopy(board);
     nb[mv.r][mv.c]=WHITE;
-    if(omokWinCheck(nb,mv.r,mv.c,WHITE))return mv; // instant win
-    const score=alphabeta(nb,depth-1,-Infinity,Infinity,false);
+    if(omokWinCheck(nb,mv.r,mv.c,WHITE))return mv;
+    const score=alphabeta(nb,4,-Infinity,Infinity,false);
     if(score>bestScore){bestScore=score;best=mv;}
   }
   return best;
@@ -1081,7 +1084,8 @@ function alphabeta(bd,depth,alpha,beta,isMax){
 
 function omokCandidates(bd){
   const inRange=new Set();
-  const range=aiLevel===3?2:1;
+  // Novice only looks 1 cell away; Skilled/Master look 2 cells
+  const range=aiLevel===1?1:2;
   for(let r=0;r<BOARD_SIZE;r++)for(let c=0;c<BOARD_SIZE;c++){
     if(bd[r][c]===EMPTY)continue;
     for(let dr=-range;dr<=range;dr++)for(let dc=-range;dc<=range;dc++){
@@ -1092,8 +1096,12 @@ function omokCandidates(bd){
   }
   if(inRange.size===0){const m=Math.floor(BOARD_SIZE/2);return[{r:m,c:m}];}
   const moves=[...inRange].map(k=>({r:Math.floor(k/BOARD_SIZE),c:k%BOARD_SIZE}));
-  moves.sort((a,b)=>(omokSpotScore(bd,b.r,b.c,WHITE)+omokSpotScore(bd,b.r,b.c,BLACK))-(omokSpotScore(bd,a.r,a.c,WHITE)+omokSpotScore(bd,a.r,a.c,BLACK)));
-  return moves.slice(0,aiLevel===3?20:12);
+  // Sort by combined heuristic score (best-first pruning)
+  moves.sort((a,b)=>(omokSpotScore(bd,b.r,b.c,WHITE)+omokSpotScore(bd,b.r,b.c,BLACK))
+                   -(omokSpotScore(bd,a.r,a.c,WHITE)+omokSpotScore(bd,a.r,a.c,BLACK)));
+  // Novice considers fewer candidates so it misses more moves
+  const limit=aiLevel===1?8:aiLevel===2?14:20;
+  return moves.slice(0,limit);
 }
 
 function omokWinCheck(b,r,c,color){
@@ -1120,7 +1128,7 @@ function omokEvalBoard(b){
   for(let r=0;r<BOARD_SIZE;r++)for(let c=0;c<BOARD_SIZE;c++){
     if(b[r][c]===EMPTY){
       score+=omokSpotScore(b,r,c,WHITE);
-      score-=omokSpotScore(b,r,c,BLACK)*1.1; // slightly defensive
+      score-=omokSpotScore(b,r,c,BLACK)*1.1;
     }
   }
   return score;
@@ -1148,7 +1156,7 @@ function omokSpotScore(b,r,c,color){
   return total;
 }
 
-/* ── GO AI: Pattern-based + influence map + Monte Carlo rollouts ── */
+/* ── GO AI: unchanged (Master is fine, adjustments only for Omok) ── */
 function goAI(){
   let stoneCount=0;
   board.forEach(row=>row.forEach(c=>{if(c!==EMPTY)stoneCount++;}));
@@ -1177,7 +1185,6 @@ function goCandidates(){
     }
   }
   if(cands.size===0){
-    // Opening: play star points
     const pts=BOARD_SIZE===19?[[3,3],[3,9],[3,15],[9,3],[9,9],[9,15],[15,3],[15,9],[15,15]]:[[3,3],[3,7],[3,11],[7,3],[7,7],[7,11],[11,3],[11,7],[11,11]];
     return pts.map(([r,c])=>({r,c}));
   }
@@ -1188,8 +1195,6 @@ function goEvalMove(r,c,stoneCount){
   let score=0;
   const tb=boardCopy(board);
   tb[r][c]=WHITE;
-
-  // 1. Immediate captures
   let caps=0;
   getNeighbors(r,c).forEach(([nr,nc])=>{
     if(tb[nr][nc]===-WHITE){
@@ -1198,16 +1203,12 @@ function goEvalMove(r,c,stoneCount){
     }
   });
   score+=caps*(aiLevel===3?150:80);
-
-  // 2. Save own groups in atari
   getNeighbors(r,c).forEach(([nr,nc])=>{
     if(board[nr][nc]===WHITE){
       const g=getGroup(board,nr,nc);
       if(countLiberties(board,g)===1)score+=g.length*(aiLevel===3?120:60);
     }
   });
-
-  // 3. Put opponent in atari
   getNeighbors(r,c).forEach(([nr,nc])=>{
     if(board[nr][nc]===BLACK){
       const g=getGroup(board,nr,nc);
@@ -1216,25 +1217,19 @@ function goEvalMove(r,c,stoneCount){
       if(libs===1)score+=g.length*(aiLevel===3?40:15);
     }
   });
-
-  // 4. Own liberties after move
   const selfGroup=getGroup(tb,r,c);
   const selfLibs=countLiberties(tb,selfGroup);
-  if(selfLibs===1)score-=300; // don't play into atari
+  if(selfLibs===1)score-=300;
   if(selfLibs===2)score-=80;
   score+=Math.min(selfLibs,6)*10;
-
-  // 5. Opening: star points and shimari
   const dR=Math.min(r,BOARD_SIZE-1-r),dC=Math.min(c,BOARD_SIZE-1-c);
   const edgeDist=Math.min(dR,dC);
   if(stoneCount<40){
     if(dR===3&&dC===3)score+=120;
     else if(edgeDist===2||edgeDist===3)score+=70;
     else if(edgeDist===4)score+=40;
-    else if(edgeDist<=1)score-=60; // avoid edges early
+    else if(edgeDist<=1)score-=60;
   }
-
-  // 6. Influence: reward moves near opponent stones (aggression scales with level)
   const aggression=aiLevel===1?10:aiLevel===2?25:45;
   const dirs8=[[0,1],[1,0],[-1,0],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]];
   dirs8.forEach(([dr,dc])=>{
@@ -1244,8 +1239,6 @@ function goEvalMove(r,c,stoneCount){
       if(board[nr][nc]===WHITE)score+=8;
     }
   });
-
-  // 7. Level 3: territory estimate around move
   if(aiLevel===3){
     let territoryBonus=0;
     for(let dr=-3;dr<=3;dr++)for(let dc=-3;dc<=3;dc++){
@@ -1255,18 +1248,15 @@ function goEvalMove(r,c,stoneCount){
     }
     score+=territoryBonus;
   }
-
   return score;
 }
 
-// Monte Carlo: play N random rollouts from this move and return win rate
 function monteCarloScore(r,c,rollouts){
   let wins=0;
   for(let i=0;i<rollouts;i++){
     const tb=boardCopy(board);
     tb[r][c]=WHITE;
-    // Do a short random playout (30 moves)
-    let t=-WHITE; // next turn after AI move
+    let t=-WHITE;
     for(let m=0;m<30;m++){
       const empty=[];
       for(let rr=0;rr<BOARD_SIZE;rr++)for(let cc=0;cc<BOARD_SIZE;cc++)
@@ -1276,14 +1266,13 @@ function monteCarloScore(r,c,rollouts){
       tb[mr][mc]=t;
       t=-t;
     }
-    // Count material as proxy for win
     let w=0,b=0;
     for(let rr=0;rr<BOARD_SIZE;rr++)for(let cc=0;cc<BOARD_SIZE;cc++){
       if(tb[rr][cc]===WHITE)w++;else if(tb[rr][cc]===BLACK)b++;
     }
     if(w>b)wins++;
   }
-  return (wins/rollouts)*60; // scale to score units
+  return (wins/rollouts)*60;
 }
 
 function boardCopy(b){return b.map(row=>[...row]);}
@@ -1361,8 +1350,8 @@ canvas.addEventListener('mousedown',e=>{
    ONLINE MULTIPLAYER
 ════════════════════════════════════ */
 let socket=null;
-let onlineRoom=null;   // current room code
-let myColor=0;         // 1=BLACK, -1=WHITE, 0=spectator
+let onlineRoom=null;
+let myColor=0;
 let onlineGameType=null;
 let onlineBoard=[];
 let onlineTurn=1;
@@ -1374,9 +1363,16 @@ let onlineBoardSize=19;
 const oc=document.getElementById('onlineBoard');
 const octx=oc.getContext('2d');
 
+let socketAuthed=false;
+let pendingRoomAction=null;
+
 function initSocket(){
-  if(socket&&socket.connected)return;
-  // Use same host — works both locally and on Render
+  if(socket&&socket.connected){
+    // Already connected — if authed, run pending action immediately
+    if(socketAuthed&&pendingRoomAction){pendingRoomAction();pendingRoomAction=null;}
+    return;
+  }
+  socketAuthed=false;
   const serverUrl=window.location.origin;
   socket=io(serverUrl,{
     transports:['websocket','polling'],
@@ -1384,39 +1380,78 @@ function initSocket(){
     reconnectionAttempts:5,
     reconnectionDelay:1000,
   });
-
   socket.on('connect',()=>{
     console.log('Socket connected:', socket.id);
-    if(authToken)socket.emit('auth',authToken);
+    if(authToken){
+      socket.emit('auth',authToken);
+    } else if(currentUser){
+      // Guest — register with server using guest identity
+      socket.emit('auth:guest',{username:currentUser.username,avatar:currentUser.avatar});
+    }
+    // Fallback: if auth:ok doesn't fire within 3s, proceed anyway
+    setTimeout(()=>{
+      if(!socketAuthed){
+        console.warn('Auth timeout — proceeding as guest');
+        // Register as anonymous if nothing else worked
+        if(currentUser){
+          socketUser_local={username:currentUser.username,avatar:currentUser.avatar};
+        }
+        socketAuthed=true;
+        if(pendingRoomAction){pendingRoomAction();pendingRoomAction=null;}
+      }
+    },3000);
   });
-
   socket.on('connect_error',(err)=>{
     console.error('Socket connection error:', err.message);
     showOnlineLobbyErr('Could not connect to server. Is it running?');
   });
-
   socket.on('disconnect',(reason)=>{
     console.log('Socket disconnected:', reason);
+    socketAuthed=false;
     if(onlineActive){
       document.getElementById('onlineStatusText').textContent='Disconnected from server.';
       onlineActive=false;
     }
   });
-
   socket.on('auth:ok',({username})=>{
     console.log('Socket authenticated as', username);
+    socketAuthed=true;
+    if(pendingRoomAction){pendingRoomAction();pendingRoomAction=null;}
   });
-
   socket.on('room:created',({code,color,gameType})=>{
     onlineRoom=code; myColor=color; onlineGameType=gameType;
     onlineBoardSize=gameType==='gomoku'?15:19;
-    document.getElementById('onlineLobby').style.display='none';
-    document.getElementById('onlineWaiting').style.display='block';
-    document.getElementById('waitingText').textContent='Room created! Share this code:';
-    document.getElementById('roomCodeDisplay').textContent=code;
-    document.getElementById('roomCodeHint').textContent='Ask your friend to enter this code and click Join.';
+    // Size the canvas now so it's ready when the game starts
+    oc.width=onlineBoardSize*onlineCellSize;
+    oc.height=onlineBoardSize*onlineCellSize;
+    document.getElementById('onlineBoardLabel').textContent=gameType==='gomoku'?'Omok — 15×15':'Go — 19×19';
+    document.getElementById('onlineRoomCode').textContent='Room: '+code;
+    document.getElementById('onlineStatusText').textContent='Waiting for opponent...';
+    document.getElementById('onlineBlackName').textContent='—';
+    document.getElementById('onlineWhiteName').textContent='—';
+    document.getElementById('onlinePassBtn').style.display='none';
+    document.getElementById('onlineResignBtn').style.display='none';
+    document.getElementById('onlineRematchBtn').style.display='none';
+    // Show a "waiting" overlay on the board area using the room code
+    closeModal();
+    showOnlineArea();
+    // Draw a waiting message on the canvas
+    octx.clearRect(0,0,oc.width,oc.height);
+    const bg=octx.createLinearGradient(0,0,oc.width,oc.height);
+    bg.addColorStop(0,'#dcb468');bg.addColorStop(1,'#c89840');
+    octx.fillStyle=bg;octx.fillRect(0,0,oc.width,oc.height);
+    octx.fillStyle='rgba(44,31,14,0.7)';
+    octx.font='bold 18px Inter, sans-serif';
+    octx.textAlign='center';
+    octx.fillText('Waiting for opponent...',oc.width/2,oc.height/2-20);
+    octx.font='bold 32px Lora, serif';
+    octx.fillStyle='rgba(139,94,42,0.9)';
+    octx.fillText('Room Code: '+code,oc.width/2,oc.height/2+20);
+    octx.font='14px Inter, sans-serif';
+    octx.fillStyle='rgba(44,31,14,0.5)';
+    octx.fillText('Share this code with your friend',oc.width/2,oc.height/2+55);
+    octx.textAlign='left';
   });
-
   socket.on('room:joined',({code,color,gameType,spectator})=>{
     onlineRoom=code; myColor=color; onlineGameType=gameType;
     onlineBoardSize=gameType==='gomoku'?15:19;
@@ -1424,16 +1459,21 @@ function initSocket(){
     oc.height=onlineBoardSize*onlineCellSize;
     document.getElementById('onlineBoardLabel').textContent=gameType==='gomoku'?'Omok — 15×15':'Go — 19×19';
     document.getElementById('onlineRoomCode').textContent='Room: '+code;
+    document.getElementById('onlinePassBtn').style.display='none';
+    document.getElementById('onlineResignBtn').style.display='none';
+    document.getElementById('onlineRematchBtn').style.display='none';
     if(spectator){
       document.getElementById('onlineStatusText').textContent='Watching as spectator';
     }else{
-      document.getElementById('onlineStatusText').textContent='Waiting for opponent...';
+      document.getElementById('onlineStatusText').textContent='Waiting for game to start...';
     }
     closeModal();
     showOnlineArea();
   });
-
   socket.on('room:start',({black,white})=>{
+    // Works for both creator and joiner — ensure the game area is visible
+    closeModal();
+    showOnlineArea();
     document.getElementById('onlineBlackName').textContent=(black.avatar||'⚫')+' '+black.username;
     document.getElementById('onlineWhiteName').textContent=(white.avatar||'⚪')+' '+white.username;
     const myColorLabel=myColor===0?'Spectating':'Your color: '+(myColor===1?'⚫ Black':'⚪ White');
@@ -1443,7 +1483,6 @@ function initSocket(){
     document.getElementById('onlineResignBtn').style.display='';
     document.getElementById('onlineRematchBtn').style.display='none';
   });
-
   socket.on('room:state',(state)=>{
     onlineBoard=state.board||[];
     onlineTurn=state.turn;
@@ -1455,18 +1494,15 @@ function initSocket(){
         isMyTurn?'Your turn ✦':'Waiting for opponent...';
     }
   });
-
   socket.on('room:timer',({black,white})=>{
     document.getElementById('onlineTimerBlack').textContent=formatTime(black);
     document.getElementById('onlineTimerWhite').textContent=formatTime(white);
-    // Warn when low
     const activeEl=onlineTurn===1?
       document.getElementById('onlineTimerBlack'):
       document.getElementById('onlineTimerWhite');
     const activeTime=onlineTurn===1?black:white;
     activeEl.style.color=activeTime<60?'var(--red)':activeTime<180?'var(--yellow)':'var(--text3)';
   });
-
   socket.on('room:gameover',({reason,winner,resignedBy,disconnected})=>{
     onlineActive=false;
     let msg='';
@@ -1480,21 +1516,16 @@ function initSocket(){
     document.getElementById('onlineRematchBtn').style.display='';
     appendSystemMsg('— '+msg+' —');
   });
-
   socket.on('room:chatMsg',(msg)=>{ appendChat(msg); });
-
   socket.on('room:passed',({by})=>{ appendSystemMsg(`${by} passed their turn.`); });
-
   socket.on('room:rematchVote',({votes,needed})=>{
     document.getElementById('onlineRematchBtn').textContent=
       votes<needed?`Rematch (${votes}/${needed})`:'Starting rematch...';
   });
-
   socket.on('queue:waiting',({position})=>{
     document.getElementById('queueStatus').textContent=`In queue — position ${position}. Searching...`;
   });
-
-  socket.on('error',(msg)=>{ showOnlineLobbyErr(msg); });
+  socket.on('game:error',(msg)=>{ console.error('Server error:',msg); showOnlineLobbyErr(msg); if(document.getElementById('onlineArea').style.display!=='none'){document.getElementById('onlineStatusText').textContent='Error: '+msg;} });
 }
 
 function formatTime(sec){
@@ -1505,7 +1536,7 @@ function formatTime(sec){
 
 function openOnlinePanel(gameType){
   onlineGameType=gameType;
-  initSocket(); // connect early
+  initSocket();
   document.getElementById('onlinePanelTitle').textContent=
     'Online — '+(gameType==='gomoku'?'Omok':'Go');
   document.getElementById('onlinePanelSub').textContent=
@@ -1529,15 +1560,21 @@ function quickMatch(){
 }
 
 function createOnlineRoom(){
-  if(!socket||!socket.connected){initSocket();setTimeout(createOnlineRoom,500);return;}
-  socket.emit('room:create',{gameType:onlineGameType});
+  document.getElementById('onlineLobbyErr').style.display='none';
+  const doCreate=()=>{ console.log('Emitting room:create, gameType='+onlineGameType); socket.emit('room:create',{gameType:onlineGameType}); };
+  if(!socket||!socket.connected){ pendingRoomAction=doCreate; initSocket(); return; }
+  if(!socketAuthed){ pendingRoomAction=doCreate; return; }
+  doCreate();
 }
 
 function joinOnlineRoom(){
+  document.getElementById('onlineLobbyErr').style.display='none';
   const code=document.getElementById('joinCodeInput').value.trim().toUpperCase();
-  if(code.length!==4){showOnlineLobbyErr('Enter a 4-digit room code.');return;}
-  if(!socket||!socket.connected){initSocket();setTimeout(joinOnlineRoom,500);return;}
-  socket.emit('room:join',{code});
+  if(code.length!==4){showOnlineLobbyErr('Enter a valid 4-digit room code.');return;}
+  const doJoin=()=>{ console.log('Emitting room:join, code='+code); socket.emit('room:join',{code}); };
+  if(!socket||!socket.connected){ pendingRoomAction=doJoin; initSocket(); return; }
+  if(!socketAuthed){ pendingRoomAction=doJoin; return; }
+  doJoin();
 }
 
 function cancelWaiting(){
@@ -1605,7 +1642,6 @@ function appendSystemMsg(text){
   box.scrollTop=box.scrollHeight;
 }
 
-/* Online board click */
 oc.addEventListener('mousedown',e=>{
   if(!onlineActive||myColor===0||myColor!==onlineTurn)return;
   const rect=oc.getBoundingClientRect();
@@ -1622,26 +1658,21 @@ function drawOnlineBoard(){
   const bg=octx.createLinearGradient(0,0,oc.width,oc.height);
   bg.addColorStop(0,'#dcb468');bg.addColorStop(0.5,'#d4a855');bg.addColorStop(1,'#c89840');
   octx.fillStyle=bg;octx.fillRect(0,0,oc.width,oc.height);
-  // Vignette
   const vig=octx.createRadialGradient(oc.width/2,oc.height/2,oc.width*0.3,oc.width/2,oc.height/2,oc.width*0.75);
   vig.addColorStop(0,'transparent');vig.addColorStop(1,'rgba(0,0,0,0.18)');
   octx.fillStyle=vig;octx.fillRect(0,0,oc.width,oc.height);
-  // Highlight my turn
   if(onlineActive&&myColor===onlineTurn&&myColor!==0){
     octx.fillStyle='rgba(42,107,94,0.08)';octx.fillRect(0,0,oc.width,oc.height);
   }
-  // Grid
   octx.strokeStyle='rgba(90,50,10,0.45)';octx.lineWidth=1;
   for(let i=0;i<onlineBoardSize;i++){
     let p=onlineCellSize/2+i*onlineCellSize;
     octx.beginPath();octx.moveTo(onlineCellSize/2,p);octx.lineTo(oc.width-onlineCellSize/2,p);octx.stroke();
     octx.beginPath();octx.moveTo(p,onlineCellSize/2);octx.lineTo(p,oc.height-onlineCellSize/2);octx.stroke();
   }
-  // Star points
   octx.fillStyle='rgba(80,40,5,0.7)';
   const sp=onlineBoardSize===19?[3,9,15]:[3,7,11];
   sp.forEach(r=>sp.forEach(c=>{octx.beginPath();octx.arc(onlineCellSize/2+c*onlineCellSize,onlineCellSize/2+r*onlineCellSize,3.5,0,Math.PI*2);octx.fill();}));
-  // Stones
   for(let r=0;r<onlineBoardSize;r++)for(let c=0;c<onlineBoardSize;c++){
     if(onlineBoard[r]&&onlineBoard[r][c]!==0){
       drawOnlineStone(r,c,onlineBoard[r][c]);
