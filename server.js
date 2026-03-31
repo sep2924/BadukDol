@@ -173,9 +173,8 @@ app.get('/api/health', (_, res) => res.json({ status: 'ok' }));
    SOCKET.IO — REAL-TIME MULTIPLAYER
 ══════════════════════════════════════════════ */
 
-// In-memory room store
-const rooms    = new Map(); // roomCode → room object
-const queue    = new Map(); // gameType → [socket, ...]
+const rooms      = new Map(); // roomCode → room object
+const queue      = new Map(); // gameType → [socket, ...]
 const socketUser = new Map(); // socketId → { userId, username, avatar }
 
 function makeRoomCode() {
@@ -184,24 +183,18 @@ function makeRoomCode() {
 }
 
 function createRoom(code, gameType) {
-  const timeLimit = gameType === 'baduk' ? 900 : 600; // 15min Go, 10min Omok
+  const timeLimit = gameType === 'baduk' ? 900 : 600;
   return {
-    code,
-    gameType,
-    players:    [],
-    spectators: [],
-    board:      null,
-    turn:       1,
-    gameActive: false,
-    captured:   { black: 0, white: 0 },
-    moveHistory:[],
-    lastMove:   null,
-    timerBlack: timeLimit,
-    timerWhite: timeLimit,
+    code, gameType,
+    players: [], spectators: [],
+    board: null, turn: 1, gameActive: false,
+    captured: { black: 0, white: 0 },
+    moveHistory: [], lastMove: null,
+    timerBlack: timeLimit, timerWhite: timeLimit,
     timerInterval: null,
     rematchVotes: new Set(),
-    chat:       [],
-    createdAt:  Date.now(),
+    chat: [],
+    createdAt: Date.now(),
   };
 }
 
@@ -209,18 +202,13 @@ function boardSize(gameType) { return gameType === 'gomoku' ? 15 : 19; }
 
 function emitRoomState(room) {
   const state = {
-    code:       room.code,
-    gameType:   room.gameType,
-    players:    room.players.map(p => ({ username: p.username, avatar: p.avatar, color: p.color })),
+    code: room.code, gameType: room.gameType,
+    players: room.players.map(p => ({ username: p.username, avatar: p.avatar, color: p.color })),
     spectators: room.spectators.length,
-    board:      room.board,
-    turn:       room.turn,
-    gameActive: room.gameActive,
-    captured:   room.captured,
-    lastMove:   room.lastMove,
-    timerBlack: room.timerBlack,
-    timerWhite: room.timerWhite,
-    chat:       room.chat.slice(-50),
+    board: room.board, turn: room.turn, gameActive: room.gameActive,
+    captured: room.captured, lastMove: room.lastMove,
+    timerBlack: room.timerBlack, timerWhite: room.timerWhite,
+    chat: room.chat.slice(-50),
   };
   io.to(room.code).emit('room:state', state);
 }
@@ -229,8 +217,8 @@ function startTimer(room) {
   if (room.timerInterval) clearInterval(room.timerInterval);
   room.timerInterval = setInterval(() => {
     if (!room.gameActive) { clearInterval(room.timerInterval); return; }
-    if (room.turn === 1)  room.timerBlack--;
-    else                  room.timerWhite--;
+    if (room.turn === 1) room.timerBlack--;
+    else                 room.timerWhite--;
     io.to(room.code).emit('room:timer', { black: room.timerBlack, white: room.timerWhite });
     if (room.timerBlack <= 0 || room.timerWhite <= 0) {
       const winner = room.timerBlack <= 0 ? 'White' : 'Black';
@@ -242,29 +230,58 @@ function startTimer(room) {
 }
 
 io.on('connection', (socket) => {
+  console.log('🔌 Client connected:', socket.id);
 
-  // ── AUTHENTICATE ──
+  // ── AUTHENTICATE (registered users) ──
   socket.on('auth', (token) => {
     const payload = verifyToken(token);
     if (payload) {
       User.findById(payload.id).then(user => {
         if (user) {
-          socketUser.set(socket.id, { userId: user._id.toString(), username: user.username, avatar: user.avatar });
+          socketUser.set(socket.id, {
+            userId: user._id.toString(),
+            username: user.username,
+            avatar: user.avatar,
+          });
+          console.log(`✅ Socket auth OK: ${user.username} (${socket.id})`);
           socket.emit('auth:ok', { username: user.username });
+        } else {
+          console.warn(`⚠️ Socket auth: user not found for token`);
+          socket.emit('game:error', 'User not found — please log in again');
         }
+      }).catch(err => {
+        console.error('Auth DB error:', err);
+        socket.emit('game:error', 'Auth error: ' + err.message);
       });
+    } else {
+      console.warn(`⚠️ Socket auth: invalid token from ${socket.id}`);
+      socket.emit('game:error', 'Invalid token — please log in again');
     }
+  });
+
+  // ── AUTHENTICATE (guests) ──
+  socket.on('auth:guest', ({ username, avatar }) => {
+    const uname = username || `Guest_${Math.floor(Math.random()*9000)+1000}`;
+    socketUser.set(socket.id, {
+      userId: socket.id,
+      username: uname,
+      avatar: avatar || '🎯',
+    });
+    console.log(`✅ Socket guest auth OK: ${uname} (${socket.id})`);
+    socket.emit('auth:ok', { username: uname });
   });
 
   // ── CREATE ROOM ──
   socket.on('room:create', ({ gameType }) => {
     const user = socketUser.get(socket.id);
-    if (!user) return socket.emit('error', 'Not authenticated');
+    console.log(`room:create from ${socket.id}, user:`, user, 'gameType:', gameType);
+    if (!user) return socket.emit('game:error', 'Not authenticated — please wait a moment and try again');
     const code = makeRoomCode();
     const room = createRoom(code, gameType);
     room.players.push({ socketId: socket.id, ...user, color: 1 }); // BLACK
     rooms.set(code, room);
     socket.join(code);
+    console.log(`✅ Room created: ${code} by ${user.username}`);
     socket.emit('room:created', { code, color: 1, gameType });
     emitRoomState(room);
   });
@@ -272,9 +289,10 @@ io.on('connection', (socket) => {
   // ── JOIN ROOM BY CODE ──
   socket.on('room:join', ({ code }) => {
     const user = socketUser.get(socket.id);
-    if (!user) return socket.emit('error', 'Not authenticated');
+    console.log(`room:join from ${socket.id}, user:`, user, 'code:', code);
+    if (!user) return socket.emit('game:error', 'Not authenticated — please wait a moment and try again');
     const room = rooms.get(code);
-    if (!room) return socket.emit('error', 'Room not found');
+    if (!room) return socket.emit('game:error', `Room "${code}" not found — check the code and try again`);
     if (room.players.length >= 2) {
       // Join as spectator
       room.spectators.push({ socketId: socket.id, ...user });
@@ -296,20 +314,19 @@ io.on('connection', (socket) => {
       black: { username: room.players[0].username, avatar: room.players[0].avatar },
       white: { username: room.players[1].username, avatar: room.players[1].avatar },
     });
+    console.log(`🎮 Game started in room ${code}: ${room.players[0].username} vs ${room.players[1].username}`);
     startTimer(room);
   });
 
   // ── MATCHMAKING QUEUE ──
   socket.on('queue:join', ({ gameType }) => {
     const user = socketUser.get(socket.id);
-    if (!user) return socket.emit('error', 'Not authenticated');
+    if (!user) return socket.emit('game:error', 'Not authenticated');
     if (!queue.has(gameType)) queue.set(gameType, []);
     const q = queue.get(gameType);
-    // Don't add duplicates
     if (q.find(s => s.id === socket.id)) return;
     q.push(socket);
     socket.emit('queue:waiting', { position: q.length });
-    // If 2+ in queue, match them
     if (q.length >= 2) {
       const [s1, s2] = q.splice(0, 2);
       const u1 = socketUser.get(s1.id);
@@ -347,17 +364,13 @@ io.on('connection', (socket) => {
     const room = rooms.get(code);
     if (!room || !room.gameActive) return;
     const player = room.players.find(p => p.socketId === socket.id);
-    if (!player || player.color !== room.turn) return; // wrong turn
-
+    if (!player || player.color !== room.turn) return;
     const size = boardSize(room.gameType);
     if (r < 0 || r >= size || c < 0 || c >= size) return;
     if (room.board[r][c] !== 0) return;
-
     room.board[r][c] = room.turn;
     room.lastMove = { r, c };
     room.moveHistory.push(JSON.parse(JSON.stringify(room.board)));
-
-    // Check Omok win
     if (room.gameType === 'gomoku' && checkOmokWin(room.board, r, c, room.turn, size)) {
       room.gameActive = false;
       clearInterval(room.timerInterval);
@@ -366,7 +379,6 @@ io.on('connection', (socket) => {
       io.to(code).emit('room:gameover', { reason: 'five', winner });
       return;
     }
-
     room.turn = -room.turn;
     emitRoomState(room);
   });
@@ -413,7 +425,6 @@ io.on('connection', (socket) => {
     room.rematchVotes.add(socket.id);
     io.to(code).emit('room:rematchVote', { votes: room.rematchVotes.size, needed: room.players.length });
     if (room.rematchVotes.size >= room.players.length) {
-      // Reset the game, swap colors
       const size = boardSize(room.gameType);
       const timeLimit = room.gameType === 'baduk' ? 900 : 600;
       room.board = Array.from({ length: size }, () => Array(size).fill(0));
@@ -425,12 +436,11 @@ io.on('connection', (socket) => {
       room.timerBlack = timeLimit;
       room.timerWhite = timeLimit;
       room.rematchVotes.clear();
-      // Swap colors
       room.players.forEach(p => { p.color = -p.color; });
       emitRoomState(room);
       io.to(code).emit('room:start', {
-        black: room.players.find(p=>p.color===1),
-        white: room.players.find(p=>p.color===-1),
+        black: room.players.find(p => p.color === 1),
+        white: room.players.find(p => p.color === -1),
       });
       startTimer(room);
     }
@@ -438,12 +448,11 @@ io.on('connection', (socket) => {
 
   // ── DISCONNECT ──
   socket.on('disconnect', () => {
+    console.log('🔌 Client disconnected:', socket.id);
     socketUser.delete(socket.id);
-    // Remove from queue
     queue.forEach((q, gameType) => {
       queue.set(gameType, q.filter(s => s.id !== socket.id));
     });
-    // Notify room
     rooms.forEach((room, code) => {
       const playerIdx = room.players.findIndex(p => p.socketId === socket.id);
       if (playerIdx !== -1) {
@@ -459,7 +468,6 @@ io.on('connection', (socket) => {
           rooms.delete(code);
         }
       }
-      // Remove spectator
       room.spectators = room.spectators.filter(s => s.socketId !== socket.id);
     });
   });
